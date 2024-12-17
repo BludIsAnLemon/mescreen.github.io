@@ -1,3 +1,5 @@
+let onSite = true
+
 if(Notification.permission !== 'granted') {
     Notification.requestPermission()
         .then(perm => {
@@ -13,6 +15,7 @@ if(Notification.permission === 'granted') {
 
 function startNotifs() {
     setInterval(() => {
+        if(!onSite) return
         new Notification('A contestant has died!', {
             body: 'Recover them using MeLife!'
         })
@@ -31,3 +34,7 @@ popup.showModal()
 setTimeout(() => {
     document.body.removeChild(popup)
 }, 2000)
+
+document.addEventListener('visibilitychange', () => {
+    onSite = document.visibilityState === 'visible'
+})
